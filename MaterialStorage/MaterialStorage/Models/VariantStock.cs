@@ -1,9 +1,9 @@
 ﻿namespace MaterialStorage.Models
 {
-    public class ProductStock
+    public class VariantStock
     {
         public int Id { get; set; }
-        public Product Product { get; set; }
+        public int VariantId { get; set; }
         public int Quantity { get; set; }
     }
 }

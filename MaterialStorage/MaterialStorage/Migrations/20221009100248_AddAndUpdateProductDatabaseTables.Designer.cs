@@ -4,6 +4,7 @@ using MaterialStorage.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MaterialStorage.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221009100248_AddAndUpdateProductDatabaseTables")]
+    partial class AddAndUpdateProductDatabaseTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,6 +137,8 @@ namespace MaterialStorage.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RawMaterialId");
+
                     b.ToTable("RawMaterialStocks");
                 });
 
@@ -188,6 +192,8 @@ namespace MaterialStorage.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("VariantId");
+
                     b.ToTable("VariantStocks");
                 });
 
@@ -206,6 +212,17 @@ namespace MaterialStorage.Migrations
                     b.Navigation("Variant");
                 });
 
+            modelBuilder.Entity("MaterialStorage.Models.RawMaterialStock", b =>
+                {
+                    b.HasOne("MaterialStorage.Models.RawMaterial", "RawMaterial")
+                        .WithMany()
+                        .HasForeignKey("RawMaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RawMaterial");
+                });
+
             modelBuilder.Entity("MaterialStorage.Models.Variant", b =>
                 {
                     b.HasOne("MaterialStorage.Models.Product", null)
@@ -213,6 +230,17 @@ namespace MaterialStorage.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MaterialStorage.Models.VariantStock", b =>
+                {
+                    b.HasOne("MaterialStorage.Models.Variant", "Variant")
+                        .WithMany()
+                        .HasForeignKey("VariantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Variant");
                 });
 
             modelBuilder.Entity("MaterialStorage.Models.Product", b =>

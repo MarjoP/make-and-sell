@@ -12,5 +12,6 @@ namespace MaterialStorage.Data
         public DbSet<RawMaterial> RawMaterials { get; set; }
         public DbSet<RawMaterialStock> RawMaterialStocks { get; set; }
         public DbSet<BOM> BOMs { get; set; }
+        public DbSet<VariantStock> VariantStocks { get; set; }
     }
 }
